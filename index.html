@@ -1,10 +1,20 @@
 <h1>Hello!</h1>
-<video autoplay loop muted playsinline>
-  <source src="cat.mp4" type="video/mp4">
-</video>
-<video autoplay loop muted playsinline>
-    <source src="pukon.mp4" type="video/mp4">
-  </video>
-  <video autoplay loop muted playsinline>
-    <source src="jap.mov" type="video/mov">
-  </video>
+<!-- Centerize the videos and put spacing between them:-->
+<style>
+    video {
+        margin: 10px;
+        width: 30%;
+        height: 30%;
+    }
+</style>
+<div>
+    <video autoplay loop muted playsinline>
+        <source src="cat.mp4" type="video/mp4">
+    </video>
+    <video autoplay loop muted playsinline>
+        <source src="pukon.mp4" type="video/mp4">
+    </video>
+    <video autoplay loop muted playsinline>
+        <source src="jap.mov" type="video/mov">
+    </video>
+</div>
