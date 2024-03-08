@@ -1,11 +1,12 @@
-<h1 style="font-family: 'Open-Sans'" align="center">אנימציות פיקסל ארט</h1>
+<h1 style="font-family: 'Open-Sans'; text-align: center;">אנימציות פיקסל ארט</h1>
 <!-- Centerize the videos and put spacing between them:-->
 <style>
     video {
-        object-fit: "full";
-        width: 80%;
+        object-fit: cover; /* Adjusted from "full" to "cover" to ensure videos maintain aspect ratio */
+        width: 80%; /* You might adjust this as needed */
         height: 70vh;
-        margin: 10px;
+        margin: 10px auto; /* Center videos horizontally */
+        display: block; /* Ensure videos are treated as block-level elements for proper margin handling */
     }
 
     .harta {
@@ -19,9 +20,13 @@
     @media (orientation: portrait) {
         .harta {
             flex-direction: column;
-            height: 100%;
+            height: auto; /* Adjust from 100% to auto to prevent unnecessary stretching */
             margin-top: 0px;
             gap: 20px;
+        }
+        video {
+            height: auto; /* Adjust height to auto to prevent cropping */
+            max-height: 50vh; /* Add a max-height to ensure videos don't take too much vertical space */
         }
     }
 </style>
