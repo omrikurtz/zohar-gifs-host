@@ -1,8 +1,10 @@
 <h1 style="font-family: 'Open-Sans'" align="center">אנימציות פיקסל ארט</h1>
 <!-- Centerize the videos and put spacing between them:-->
 <style>
-    #video {
+    video {
         object-fit: "full";
+        width: 80%;
+        height: 70vh;
         margin: 10px;
     }
 
@@ -17,11 +19,14 @@
     @media (orientation: portrait) {
         .harta {
             flex-direction: column;
+            height: 100%;
+            margin-top: 0px;
+            gap: 20px;
         }
     }
 </style>
 <div class="harta">
-    <video height="700px" autoplay loop muted playsinline src="cat.mp4"></video>
-    <video height="700px" autoplay loop muted playsinline src="pukon.mp4"></video>
-    <video height="700px" autoplay loop muted playsinline src="jap.mov"></video>
+    <video autoplay loop muted playsinline src="cat.mp4"></video>
+    <video autoplay loop muted playsinline src="pukon.mp4"></video>
+    <video autoplay loop muted playsinline src="jap.mov"></video>
 </div>
