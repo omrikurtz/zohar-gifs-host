@@ -1,37 +1,51 @@
-<h1 style="font-family: 'Open-Sans'; text-align: center;">אנימציות פיקסל ארט</h1>
-<!-- Centerize the videos and put spacing between them:-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Art Animations</title>
 <style>
-    video {
-        object-fit: cover; /* Adjusted from "full" to "cover" to ensure videos maintain aspect ratio */
-        width: 80%; /* You might adjust this as needed */
-        height: 70vh;
-        margin: 10px auto; /* Center videos horizontally */
-        display: block; /* Ensure videos are treated as block-level elements for proper margin handling */
+    body {
+        font-family: 'Open Sans', sans-serif;
+        text-align: center;
     }
 
     .harta {
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
-        margin-top: 100px;
+        padding: 20px;
+    }
+
+    video {
+        object-fit: cover;
+        max-width: 100%;
+        height: auto;
+        max-height: 60vh; /* Limit the maximum height */
+        margin: 10px;
+    }
+
+    @media (min-width: 768px) {
+        video {
+            width: 25vw; /* Adjust size for larger screens */
+            max-height: 70vh;
+        }
     }
 
     @media (orientation: portrait) {
         .harta {
             flex-direction: column;
-            height: auto; /* Adjust from 100% to auto to prevent unnecessary stretching */
-            margin-top: 0px;
-            gap: 20px;
-        }
-        video {
-            height: auto; /* Adjust height to auto to prevent cropping */
-            max-height: 50vh; /* Add a max-height to ensure videos don't take too much vertical space */
         }
     }
 </style>
+</head>
+<body>
+<h1>אנימציות פיקסל ארט</h1>
 <div class="harta">
     <video autoplay loop muted playsinline src="cat.mp4"></video>
     <video autoplay loop muted playsinline src="pukon.mp4"></video>
     <video autoplay loop muted playsinline src="jap.mov"></video>
 </div>
+</body>
+</html>
