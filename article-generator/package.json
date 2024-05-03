@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "image-dimensions": "^2.3.0",
+    "openai": "^4.38.5",
+    "puppeteer": "^22.4.1"
+  }
+}
