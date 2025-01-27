@@ -1,51 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pixel Art Animations</title>
-<style>
-    body {
-        font-family: 'Open Sans', sans-serif;
-        text-align: center;
-    }
-
-    .harta {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    video {
-        object-fit: cover;
-        max-width: 100%;
-        height: auto;
-        max-height: 60vh; /* Limit the maximum height */
-        margin: 10px;
-    }
-
-    @media (min-width: 768px) {
-        video {
-            width: 25vw; /* Adjust size for larger screens */
-            max-height: 70vh;
-        }
-    }
-
-    @media (orientation: portrait) {
-        .harta {
-            flex-direction: column;
-        }
-    }
-</style>
-</head>
-<body>
-<h1>אנימציות פיקסל ארט</h1>
-<div class="harta">
-    <video autoplay loop muted playsinline src="cat.mp4"></video>
-    <video autoplay loop muted playsinline src="pukon.mp4"></video>
-    <video autoplay loop muted playsinline src="jap.mov"></video>
-</div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

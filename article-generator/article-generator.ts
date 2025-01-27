@@ -3,6 +3,14 @@ import * as cheerio from "cheerio";
 import * as fs from "fs";
 import { readFile } from "node:fs/promises";
 import {imageDimensionsFromStream} from "image-dimensions";
+import 'dotenv/config'
+
+import * as readline from "readline";
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const prompt = (query: any): Promise<string> => new Promise((resolve) => rl.question(query, resolve));
+
+
 const credentials = Buffer.from("wrdprs7000@gmail.com:arFc sBMv RoH6 qcBq Hw5d TyDo").toString("base64");
 
 const generateArticle = async (
@@ -18,6 +26,7 @@ const generateArticle = async (
 
     const command = `
         Generate an engaging and energetic blog post for the company ${brand}.
+        Make sure to not write it as if we're the company, but as if we're a third party writing about them.
         Here is an overview from Google snippets of the brand, use it (wisely) when writing the article:
         ${enrichmentData}
         
@@ -30,15 +39,27 @@ const generateArticle = async (
         e. Do not be lazy and write in great detail. Separate to subtitles and sections. Add a call to action at the end of the article.
         f. Whenever mentioning name ${brand}, use my affiliate link ${affiliateLink}. Don't do it on the article title. The images themselves should also href the affiliate link.
         h. Give only the <body> part of the HTML, I will take care of the rest.
-        i. In the end of the body, include a <tags> element which use tags that are relevant to the brand.
-            the tags should be written in this format: <tags>48,24,...</tags>
-            Here is a mapping of tag number to value (use the numbers in <tags>...</tags>)
+        i. In the end of the body, include a <category> element which use category tags that are relevant to the brand.
+            the categories should be written in this format: <category>48,24,...</category>
+            Here is a mapping of tag number to value (use the numbers in <category>...</category>)
             32: Beauty
             5: Fashion
             7: Health
             4: Lifestyle
             54: Tech
             8: Travel
+        j. Same as above, but for tags, use the <tags> element for this. Add maximum 3 tags.
+            Here is a mapping of tag number to value (use the numbers in <tags>...</tags>)
+            48: Accessories
+            29: Beauty
+            52: Affordable
+            61: Body
+            37: Clothing
+            58: Connect
+            38: Cooking
+            171: Discounts
+            53: Donation
+            57: Adventure
     `;
 
     const response = await openai.chat.completions.create({
@@ -59,37 +80,54 @@ const generateArticle = async (
 }
 
 async function getGoogleImages(brand: string) {
-    let header = {
+    const header = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36"
     };
-    let googleImagesResponse = await fetch(
-        `https://www.google.com/search?q=${brand}&hl=en&tbm=isch&asearch=ichunk&async=_id:rg_s,_pms:s,_fmt:pc&sourceid=chrome&ie=UTF-8`,
-        {
-            headers: header
-        }
+    const googleImagesResponse = await fetch(
+        `https://www.google.com/search?q=${brand}&udm=2&biw=1728&bih=958&dpr=2`,
+        { headers: header }
     );
-    let googleImagesData = await googleImagesResponse.text();
+    const googleImagesData = await googleImagesResponse.text();
     const $ = cheerio.load(googleImagesData);
-    const results = $("div.rg_meta.notranslate").map((i, el) => {
-        return $(el).text();
-    }).get();
-    const imageUrls = results.map((result) => JSON.parse(result).ou).slice(0,20);
+    
+    console.log("Number of elements found:", $("h3.ob5Hkd a").length);
+    $("h3.ob5Hkd a").each((_, el) => {
+        console.log("Element:", $(el).prop('outerHTML'));
+        console.log("Href:", $(el).attr('href'));
+    });
+
+    const imageUrls = $("h3.ob5Hkd a")
+        .map((_, el) => {
+            const href = $(el).attr('href');
+            if (!href) return null;
+            
+            const urlParams = new URLSearchParams(href.replace('/url?', ''));
+            const imageUrl = urlParams.get('imgurl');
+            return imageUrl ? decodeURIComponent(imageUrl) : null;
+        })
+        .get()
+        .filter((url): url is string => 
+            url !== null && 
+            (url.includes(".png") || url.includes(".jpg") || url.includes(".jpeg"))
+        )
+        .slice(0, 20);
+
     const landscapeImages = await Promise.all(imageUrls.map(async (imageUrl) => {
         try {
             const imageResponse = await fetch(imageUrl);
             let { body } = imageResponse;
             body = body!!;
             const dimensions = await imageDimensionsFromStream(body) ?? {width: 0, height: 0};
-            if (dimensions.width > dimensions.height) {
-                return { mode: "landscape", imageUrl};
-            } else {
-                return {mode : "portrait", imageUrl};
-            }
+            return {
+                mode: dimensions.width > dimensions.height ? "landscape" : "portrait",
+                imageUrl
+            };
         } catch (error) {
             console.error("Error fetching image dimensions:", error);
             return null;
         }
     }));
+
     return {
         landscapeImages: landscapeImages.filter((image) => image?.mode === "landscape").map((image) => image?.imageUrl),
         portraitImages: landscapeImages.filter((image) => image?.mode === "portrait").map((image) => image?.imageUrl),
@@ -137,9 +175,10 @@ async function getBrandSnippet(brand: string) {
 function parseArticle(article: string) {
     const $ = cheerio.load(article);
     const title = $("h1").text();
+    const categories = $("category").text().split(",").map((cat) => parseInt(cat));
     const tags = $("tags").text().split(",").map((tag) => parseInt(tag));
-    const body = $("body").html()?.replace(/<h1>.*?<\/h1>/, '')?.replace(/<tags>.*?<\/tags>/, '');
-    return { title, body, tags };
+    const body = $("body").html()?.replace(/<h1>.*?<\/h1>/, '')?.replace(/<tags>.*?<\/tags>/, '').replace(/<category>.*?<\/category>/, '') ?? "";
+    return { title, body, categories, tags };
 }
 
 async function uploadFeaturedMedia(imagePath: string, brand: string) {
@@ -168,18 +207,25 @@ async function downloadGooglePhoto(url: string, path: string) {
 }
 
 !(async () => {
-    const brand = process.argv[2];
-    const brandURL = process.argv[3]
-    const affiliateLink = process.argv[4];
+    const brand = await prompt("Enter brand name: ");
+    const brandURL = await prompt("Enter brand URL: ");
+    const affiliateLink = await prompt("Enter affiliate link: ");
     console.log(`Getting images for ${brand}...`)
-    const imageURLs = await getGoogleImages(brandURL);
-    const landscapeImages = imageURLs.landscapeImages;
+    let imageURLs = await getGoogleImages(brandURL);
+    let landscapeImages = imageURLs.landscapeImages;
+    if (landscapeImages.length === 0) {
+        console.log("No landscape images found, trying with brand name instead of URL...");
+        imageURLs = await getGoogleImages(brand);
+        landscapeImages.push(...imageURLs.landscapeImages);
+    }
     const allImages = [...landscapeImages, ...imageURLs.portraitImages];
+    console.log("Images; ", allImages);
     console.log(`Getting snippet for ${brand}...`);
     const snippet = await getBrandSnippet(brandURL);
+    console.log("Snippet: ", snippet);
     console.log("Generating article...");
     let article = await generateArticle(brand, affiliateLink, allImages.slice(1,3), snippet);
-    const { title, body, tags } = parseArticle(article);
+    const { title, body, categories, tags } = parseArticle(article);
     const imagePath = "featured.jpg";
     console.log("Downloading featured photo...");
     await downloadGooglePhoto(landscapeImages[0] ?? allImages[0], imagePath);
@@ -197,7 +243,8 @@ async function downloadGooglePhoto(url: string, path: string) {
             content: body,
             status: "draft",
             featured_media: featuredMediaId,
-            categories: tags,
+            categories: categories,
+            tags: tags
         }),
     });
     console.log(await response.json());

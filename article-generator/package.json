@@ -1,7 +1,9 @@
 {
   "type": "module",
   "dependencies": {
+    "assemblyai": "^4.4.2",
     "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.4.5",
     "image-dimensions": "^2.3.0",
     "openai": "^4.38.5"
   }
