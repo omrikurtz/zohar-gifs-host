@@ -19,12 +19,12 @@ import constructionSound from './assets/construction.mp3'
 import { PlayCircle, PauseCircle } from 'lucide-react'
 import './App.css'
 
-function ImageWithSound({ 
-  imgSrc, 
-  soundSrc, 
-  title, 
+function ImageWithSound({
+  imgSrc,
+  soundSrc,
+  title,
   isAllPlaying,
-  onPlayingChange 
+  onPlayingChange
 }: {
   imgSrc: string;
   soundSrc: string;
@@ -68,7 +68,7 @@ function ImageWithSound({
     <div className="relative group">
       <div></div>
       <img
-        className={`h-72 w-72 object-cover rounded-lg transition-transform duration-300
+        className={`h-[400px] w-[400px] object-cover rounded-lg transition-transform duration-300
           ${isAllPlaying ? 'bounce-animation' : ''}`}
         src={imgSrc}
         alt={title}
@@ -96,16 +96,16 @@ function App() {
 
   const columnItems = [
     [
+      { img: nahmanImg, sound: nahmanSound, title: 'Nahman' },
+      { img: constructionImg, sound: constructionSound, title: 'Construction' },
+    ],
+    [
       { img: arsimImg, sound: arsimSound, title: 'Arsim' },
       { img: trafficImg, sound: trafficSound, title: 'Traffic' },
+    ],
+    [
       { img: piguaImg, sound: piguaSound, title: 'Pigua' },
-    ],
-    [
-      { img: nahmanImg, sound: nahmanSound, title: 'Nahman' },
       { img: homelessImg, sound: homelessSound, title: 'Homeless' },
-    ],
-    [
-      { img: constructionImg, sound: constructionSound, title: 'Construction' },
     ],
   ];
 
@@ -115,11 +115,7 @@ function App() {
         {columnItems.map((column, colIndex) => (
           <div
             key={colIndex}
-            className={`flex flex-col justify-center gap-4 ${
-              colIndex === 0 ? 'mt-0' : 
-              colIndex === 1 ? 'mt-24' : 
-              'mt-48'
-            }`}
+            className={`flex flex-col justify-center gap-4`}
           >
             {column.map((item, itemIndex) => (
               <ImageWithSound
