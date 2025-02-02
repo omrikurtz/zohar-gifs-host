@@ -11,7 +11,7 @@ import constructionImg from './assets/construction.jpg'
 import madbirImg from './assets/madbir.jpg'
 
 import arsimSound from './assets/arsim.mp3'
-import trafficSound from './assets/pkakim.mpeg'
+import trafficSound from './assets/pkakim.mp3'
 import piguaSound from './assets/pigua.mpeg'
 import nahmanSound from './assets/nahmanim.mpeg'
 import homelessSound from './assets/homeless.mp3'
