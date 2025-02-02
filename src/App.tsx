@@ -8,13 +8,15 @@ import piguaImg from './assets/pigua.jpg'
 import nahmanImg from './assets/nahman.jpg'
 import homelessImg from './assets/homeless.jpg'
 import constructionImg from './assets/construction.jpg'
+import madbirImg from './assets/madbir.jpg'
 
 import arsimSound from './assets/arsim.mp3'
-import trafficSound from './assets/traffic.mp3'
-import piguaSound from './assets/pigua.mp3'
-import nahmanSound from './assets/nahman.mp3'
+import trafficSound from './assets/pkakim.mpeg'
+import piguaSound from './assets/pigua.mpeg'
+import nahmanSound from './assets/nahmanim.mpeg'
 import homelessSound from './assets/homeless.mp3'
-import constructionSound from './assets/construction.mp3'
+import constructionSound from './assets/construction.mpeg'
+import madbirSound from './assets/madbir.mpeg'
 
 import { PlayCircle, PauseCircle } from 'lucide-react'
 import './App.css'
@@ -66,9 +68,9 @@ function ImageWithSound({
 
   return (
     <div className="relative group">
-      <div></div>
       <img
-        className={`h-[400px] w-[400px] object-cover rounded-lg transition-transform duration-300
+        onClick={togglePlay}
+        className={`aspect-square h-[400px] rounded-lg transition-transform duration-300
           ${isAllPlaying ? 'bounce-animation' : ''}`}
         src={imgSrc}
         alt={title}
@@ -86,7 +88,7 @@ function ImageWithSound({
 
 function App() {
   const [playingCount, setPlayingCount] = useState(0);
-  const totalSounds = 6; // Total number of available sounds
+  const totalSounds = 7; // Total number of available sounds
 
   const handlePlayingChange = (isPlaying: boolean) => {
     setPlayingCount(prev => isPlaying ? prev + 1 : prev - 1);
@@ -94,28 +96,27 @@ function App() {
 
   const isAllPlaying = playingCount === totalSounds;
 
-  const columnItems = [
-    [
-      { img: nahmanImg, sound: nahmanSound, title: 'Nahman' },
-      { img: constructionImg, sound: constructionSound, title: 'Construction' },
-    ],
-    [
-      { img: arsimImg, sound: arsimSound, title: 'Arsim' },
-      { img: trafficImg, sound: trafficSound, title: 'Traffic' },
-    ],
+  const items = [
     [
       { img: piguaImg, sound: piguaSound, title: 'Pigua' },
+      { img: nahmanImg, sound: nahmanSound, title: 'Nahman' },
       { img: homelessImg, sound: homelessSound, title: 'Homeless' },
+    ],
+    [
+      { img: trafficImg, sound: trafficSound, title: 'Traffic' },
+      { img: constructionImg, sound: constructionSound, title: 'Construction' },
+      { img: arsimImg, sound: arsimSound, title: 'Arsim' },
+      { img: madbirImg, sound: madbirSound, title: 'Madbir' },
     ],
   ];
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-center gap-4">
-        {columnItems.map((column, colIndex) => (
+      <div className="flex flex-col justify-center gap-4">
+        {items.map((column, colIndex) => (
           <div
             key={colIndex}
-            className={`flex flex-col justify-center gap-4`}
+            className={`flex flex-row justify-center gap-4`}
           >
             {column.map((item, itemIndex) => (
               <ImageWithSound
