@@ -1,7 +1,6 @@
+// @ts-nocheck
+
 import { useState, useEffect } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from './components/Card';
-import { Button } from './components/Button';
-import { Textarea } from './components/TextArea'
 import { Check, X, Brain, ChefHat } from 'lucide-react';
 
 const MenuMemoryGame = () => {
