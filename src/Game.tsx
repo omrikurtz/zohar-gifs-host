@@ -174,7 +174,7 @@ const MenuMemoryGame = () => {
         <div className="max-w-4xl mx-auto p-2 space-y-4">
             <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors">
                 {/* Header */}
-                <div className="p-4 border-b dark:border-gray-700 relative">
+                <div className="p-4 border-b border-b-gray-300 dark:border-gray-700 relative">
                     <p className="text-xl font-bold text-center flex items-center justify-center gap-2 dark:text-white">
                         <ChefHat className="w-6 h-6" />
                         <span>Menu Memory Game</span>
