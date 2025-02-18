@@ -216,7 +216,7 @@ const MenuMemoryGame = () => {
                             className={`px-4 py-2 rounded-lg font-medium transition-colors
                 ${isRevealed || !userInput.trim()
                                     ? 'bg-gray-300 dark:bg-gray-600 cursor-not-allowed'
-                                    : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
+                                    : 'bg-blue-600 hover:bg-blue-700'}`}
                         >
                             Reveal Answer
                         </button>
@@ -226,7 +226,7 @@ const MenuMemoryGame = () => {
                             className={`px-4 py-2 rounded-lg font-medium transition-colors
                 ${!isRevealed
                                     ? 'bg-gray-300 dark:bg-gray-600 cursor-not-allowed'
-                                    : 'bg-green-600 hover:bg-green-700 text-white'}`}
+                                    : 'bg-green-600 hover:bg-green-700 '}`}
                         >
                             Next Dish
                         </button>
