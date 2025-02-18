@@ -5,10 +5,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
-    <BrowserRouter>
+    <BrowserRouter basename='/zohar-gifs-host'>
         <Routes>
-          <Route path="/zohar-gifs-host/" element={<App />} />
-          <Route path="/zohar-gifs-host/game" element={<MenuMemoryGame />} />
+          <Route path="/" element={<App />} />
+          <Route path="/game" element={<MenuMemoryGame />} />
         </Routes>
     </BrowserRouter>
 );

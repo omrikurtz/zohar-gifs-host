@@ -11,6 +11,7 @@
     "predeploy": "pnpm run build",
     "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://omrikurtz.github.io/zohar-works",
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.0.0",
