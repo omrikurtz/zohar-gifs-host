@@ -171,13 +171,13 @@ const MenuMemoryGame = () => {
     const accuracy = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
 
     return (
-        <div className="max-w-4xl p-4 space-y-4">
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="max-w-4xl mx-auto p-2 space-y-4">
+            <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors">
                 {/* Header */}
-                <div className="p-6 border-b border-b-gray-400">
-                    <p className="text-xl font-bold text-center flex items-center justify-center gap-2">
+                <div className="p-4 border-b dark:border-gray-700 relative">
+                    <p className="text-xl font-bold text-center flex items-center justify-center gap-2 dark:text-white">
                         <ChefHat className="w-6 h-6" />
-                        <span>Know your Dishes!</span>
+                        <span>Menu Memory Game</span>
                         <Brain className="w-6 h-6" />
                     </p>
                 </div>
@@ -185,16 +185,16 @@ const MenuMemoryGame = () => {
                 <div className="p-6 space-y-6">
                     {/* Score Display */}
                     <div className="text-center">
-                        <div className="text-sm text-gray-600">Score: {score.correct}/{score.total}</div>
-                        <div className="text-lg font-semibold">
+                        <div className="text-sm text-gray-600 dark:text-gray-400">Score: {score.correct}/{score.total}</div>
+                        <div className="text-lg font-semibold dark:text-white">
                             Accuracy: {accuracy}%
                         </div>
                     </div>
 
                     {/* Current Dish */}
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold mb-2">{currentDish.name}</h2>
-                        <p className="text-sm text-gray-600">Can you remember the ingredients?</p>
+                        <h2 className="text-2xl font-bold mb-2 dark:text-white">{currentDish.name}</h2>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Can you remember the ingredients?</p>
                     </div>
 
                     {/* Input Area */}
@@ -202,7 +202,9 @@ const MenuMemoryGame = () => {
                         value={userInput}
                         onChange={(e) => setUserInput(e.target.value)}
                         placeholder="Type the ingredients here..."
-                        className="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                        className="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                     dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400
+                     resize-none transition-colors"
                         disabled={isRevealed}
                     />
 
@@ -211,20 +213,20 @@ const MenuMemoryGame = () => {
                         <button
                             onClick={handleReveal}
                             disabled={isRevealed || !userInput.trim()}
-                            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200
-                    ${isRevealed || !userInput.trim()
-                                    ? 'bg-blue-300 cursor-not-allowed'
-                                    : 'bg-blue-600 hover:bg-blue-700'}`}
+                            className={`px-4 py-2 rounded-lg font-medium transition-colors
+                ${isRevealed || !userInput.trim()
+                                    ? 'bg-gray-300 dark:bg-gray-600 cursor-not-allowed'
+                                    : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
                         >
                             Reveal Answer
                         </button>
                         <button
                             onClick={handleNext}
                             disabled={!isRevealed}
-                            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200
-                    ${!isRevealed
-                                    ? 'bg-blue-300'
-                                    : 'bg-green-600 hover:bg-green-700'}`}
+                            className={`px-4 py-2 rounded-lg font-medium transition-colors
+                ${!isRevealed
+                                    ? 'bg-gray-300 dark:bg-gray-600 cursor-not-allowed'
+                                    : 'bg-green-600 hover:bg-green-700 text-white'}`}
                         >
                             Next Dish
                         </button>
@@ -233,8 +235,8 @@ const MenuMemoryGame = () => {
                     {/* Answer Reveal */}
                     {isRevealed && (
                         <div className="space-y-4">
-                            <div className="p-4 rounded-lg bg-gray-50">
-                                <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+                            <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 transition-colors">
+                                <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 dark:text-white">
                                     {userInput.trim().toLowerCase() === currentDish.ingredients.trim().toLowerCase() ? (
                                         <Check className="w-5 h-5 text-green-500" />
                                     ) : (
@@ -242,12 +244,12 @@ const MenuMemoryGame = () => {
                                     )}
                                     Correct Answer:
                                 </h3>
-                                <p className="text-gray-700">{currentDish.ingredients}</p>
+                                <p className="text-gray-700 dark:text-gray-300">{currentDish.ingredients}</p>
                             </div>
                             {userInput.trim().toLowerCase() !== currentDish.ingredients.trim().toLowerCase() && (
-                                <div className="p-4 rounded-lg bg-gray-50">
-                                    <h3 className="text-lg font-semibold mb-2">Your Answer:</h3>
-                                    <p className="text-gray-700">{userInput}</p>
+                                <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 transition-colors">
+                                    <h3 className="text-lg font-semibold mb-2 dark:text-white">Your Answer:</h3>
+                                    <p className="text-gray-700 dark:text-gray-300">{userInput}</p>
                                 </div>
                             )}
                         </div>
